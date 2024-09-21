@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Estudiantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Julius+Sans+One&family=Love+Ya+Like+A+Sister&family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <div id="app" class="container">
+        <h1>REGISTRO DE ESTUDIANTES</h1>
+        <div class="row mb-3">
+            <div class="col-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" v-model="estudiante.nombre" class="form-control">
+            </div>
+            <div class="col-6">
+                <label class="form-label">Apellido</label>
+                <input type="text" v-model="estudiante.apellido" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="form-label">Asistencia</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="presente" value="Presente" v-model="estudiante.estado">
+                    <label class="form-check-label" for="presente">Presente</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ausente" value="Ausente" v-model="estudiante.estado">
+                    <label class="form-check-label" for="ausente">Ausente</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn" @click="guardar">GUARDAR</button>
+
+        <h2 class="mt-4">LLAMADO A ASISTENCIA</h2>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>ASISTENCIA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(est, index) in estudiantes" :key="index" :class="{'fondo1': est.estado === 'Presente', 'fondo2': est.estado === 'Ausente'}">
+                    <td>{{ est.nombre }}</td>
+                    <td>{{ est.apellido }}</td>
+                    <td>{{ est.estado }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    estudiantes: [],
+                    estudiante: {
+                        nombre: '',
+                        apellido: '',
+                        estado: ''
+                    }
+                }
+            },
+            methods: {
+                guardar() {
+                    const copia = { ...this.estudiante };
+                    this.estudiantes.push(copia);
+                    // Limpiar el formulario
+                    this.estudiante = { nombre: '', apellido: '', estado: '' };
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
+
